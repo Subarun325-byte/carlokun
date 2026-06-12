@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carlo Neroza - Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: rgba(30, 41, 59, 0.5);
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #818cf8;
+      --accent-hover: #6366f1;
+      --border: rgba(255,255,255,0.1);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.2);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.3);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+      --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+      --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .light-mode {
+      --bg-primary: #F8FAFC;
+      --bg-secondary: #F1F5F9;
+      --bg-card: rgba(241, 245, 249, 0.8);
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --border: rgba(0,0,0,0.1);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
+      background: var(--bg-primary); 
+      color: var(--text-primary); 
+      overflow-x: hidden; 
+      transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    
+    /* Ant Motion Inspired Animations */
+    @keyframes fadeInUp { 
+      from { opacity: 0; transform: translateY(24px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+    @keyframes fadeInDown { 
+      from { opacity: 0; transform: translateY(-24px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+    @keyframes scaleIn { 
+      from { opacity: 0; transform: scale(0.95); } 
+      to { opacity: 1; transform: scale(1); } 
+    }
+    @keyframes slideInLeft { 
+      from { opacity: 0; transform: translateX(-24px); } 
+      to { opacity: 1; transform: translateX(0); } 
+    }
+    @keyframes slideInRight { 
+      from { opacity: 0; transform: translateX(24px); } 
+      to { opacity: 1; transform: translateX(0); } 
+    }
+    @keyframes float { 
+      0%, 100% { transform: translateY(0); } 
+      50% { transform: translateY(-16px); } 
+    }
+    @keyframes bounce { 
+      0%, 100% { transform: translateY(0); } 
+      50% { transform: translateY(-8px); } 
+    }
+    @keyframes pulse { 
+      0%, 100% { opacity: 1; } 
+      50% { opacity: 0.6; } 
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    .animate-fadeInUp { animation: fadeInUp 0.6s var(--ease-out) forwards; }
+    .animate-fadeInDown { animation: fadeInDown 0.6s var(--ease-out) forwards; }
+    .animate-scaleIn { animation: scaleIn 0.4s var(--ease-out) forwards; }
+    .animate-float { animation: float 5s ease-in-out infinite; }
+    .animate-bounce { animation: bounce 2s ease-in-out infinite; }
+    .stagger-1 { animation-delay: 0.1s; opacity: 0; }
+    .stagger-2 { animation-delay: 0.2s; opacity: 0; }
+    .stagger-3 { animation-delay: 0.3s; opacity: 0; }
+    .stagger-4 { animation-delay: 0.4s; opacity: 0; }
+    .stagger-5 { animation-delay: 0.5s; opacity: 0; }
+
+    /* Glass morphism */
+    .glass { 
+      background: var(--bg-card); 
+      backdrop-filter: blur(12px); 
+      border: 1px solid var(--border); 
+      transition: all 0.3s var(--ease-out); 
+    }
+    .glass:hover {
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* Hero text gradient */
+    .hero-text-gradient { 
+      background: linear-gradient(135deg, #818cf8 0%, #c084fc 25%, #f472b6 50%, #818cf8 75%, #c084fc 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .light-mode .hero-text-gradient { 
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 25%, #db2777 50%, #4f46e5 75%, #7c3aed 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+      -webkit-background-clip: text; 
+      background-clip: text; 
+    }
+
+    /* Scroll Progress Bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+      z-index: 99;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* 3D Card Tilt */
+    .tilt-card {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      overflow: hidden;
+    }
+    .tilt-card-inner {
+      transition: transform 0.15s ease-out;
+      transform-style: preserve-3d;
+    }
+    .tilt-card-inner .tilt-content {
+      transform: translateZ(20px);
+    }
+
+    /* Typewriter */
+    .typewriter {
+      overflow: hidden;
+      border-right: 2px solid #818cf8;
+      white-space: nowrap;
+      display: inline-block;
+      animation: blink 0.7s step-end infinite;
+    }
+    @keyframes blink {
+      from, to { border-color: transparent; }
+      50% { border-color: #818cf8; }
+    }
+    
+    /* Ant Design Button Patterns */
+    .btn-primary { 
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
+      transition: all 0.3s var(--ease-out); 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px; 
+      color: white; 
+      padding: 12px 24px; 
+      border-radius: 9999px; 
+      font-weight: 600; 
+      text-decoration: none; 
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+    }
+    .btn-primary:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4); 
+    }
+    .btn-primary:active { 
+      transform: translateY(0) scale(0.98); 
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3); 
+    }
+    
+    .btn-secondary { 
+      background: var(--bg-secondary); 
+      border: 1px solid var(--border); 
+      transition: all 0.3s var(--ease-out); 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px; 
+      color: var(--text-primary); 
+      padding: 12px 24px; 
+      border-radius: 9999px; 
+      font-weight: 600; 
+      text-decoration: none; 
+      font-size: 14px;
+    }
+    .btn-secondary:hover { 
+      transform: translateY(-2px); 
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-secondary:active { 
+      transform: translateY(0) scale(0.98); 
+    }
+    
+    /* Nav Link with underline animation */
+    .nav-link { 
+      position: relative; 
+      color: var(--text-secondary); 
+      text-decoration: none; 
+      transition: color 0.2s; 
+      font-weight: 500;
+    }
+    .nav-link::after { 
+      content: ''; 
+      position: absolute; 
+      bottom: -4px; 
+      left: 50%; 
+      width: 0; 
+      height: 2px; 
+      background: var(--accent); 
+      transition: all 0.3s var(--ease-out);
+      transform: translateX(-50%);
+    }
+    .nav-link:hover { color: var(--text-primary); }
+    .nav-link:hover::after { width: 100%; }
+    
+    /* Skill Tags - Ant Design Style */
+    .skill-tag { 
+      padding: 6px 14px; 
+      background: rgba(99, 102, 241, 0.08); 
+      border: 1px solid rgba(99, 102, 241, 0.15); 
+      border-radius: 9999px; 
+      color: var(--accent); 
+      font-size: 13px; 
+      font-weight: 500; 
+      cursor: default; 
+      transition: all 0.2s var(--ease-out); 
+      display: inline-block;
+    }
+    .skill-tag:hover { 
+      transform: scale(1.02); 
+      background: rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.25);
+    }
+    
+    /* Project Cards - Ant Design Shadow Pattern */
+    .project-card { 
+      background: var(--bg-card); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-lg); 
+      overflow: hidden; 
+      transition: all 0.4s var(--ease-bounce);
+      box-shadow: var(--shadow-sm);
+    }
+    .project-card:hover { 
+      transform: translateY(-8px); 
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+    .project-card img { 
+      transition: transform 0.5s var(--ease-out); 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+    }
+    .project-card:hover img { transform: scale(1.05); }
+    
+    /* Social Buttons */
+    .social-btn { 
+      padding: 12px 18px; 
+      background: var(--bg-card); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-md); 
+      color: var(--text-primary); 
+      text-decoration: none; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 10px; 
+      transition: all 0.3s var(--ease-bounce);
+      font-weight: 500;
+    }
+    .social-btn:hover { 
+      transform: translateY(-4px); 
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+    }
+    
+    /* Music Cards */
+    .music-card { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      padding: 12px; 
+      background: var(--bg-primary); 
+      border-radius: var(--radius-md); 
+      border: 1px solid var(--border); 
+      transition: all 0.3s var(--ease-out); 
+      cursor: pointer; 
+    }
+    .music-card:hover { 
+      transform: translateX(4px); 
+      background: rgba(99, 102, 241, 0.08);
+      border-color: rgba(99, 102, 241, 0.2);
+    }
+    .music-card.active { 
+      border-color: var(--accent); 
+      background: rgba(99, 102, 241, 0.1); 
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+    }
+    
+    /* Theme Toggle */
+    .theme-toggle { 
+      padding: 8px; 
+      background: var(--bg-secondary); 
+      border: 1px solid var(--border); 
+      border-radius: var(--radius-sm); 
+      color: var(--text-primary); 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      transition: all 0.3s var(--ease-out); 
+    }
+    .theme-toggle:hover { 
+      transform: rotate(15deg);
+      border-color: var(--accent);
+    }
+    
+    .section-bg { position: relative; }
+    .section-bg > * { position: relative; z-index: 1; }
+    
+    /* Light Mode Overrides */
+    .light-mode .glass { background: rgba(255, 255, 255, 0.9); border-color: rgba(0,0,0,0.08); }
+    .light-mode .project-card { background: white; border-color: #e5e7eb; }
+    .light-mode .social-btn { background: white; border-color: #e5e7eb; }
+    .light-mode .skill-tag { background: #f0f0ff; border-color: #e0e0ff; color: #4f46e5; }
+    .light-mode nav { background: rgba(248, 250, 252, 0.95) !important; backdrop-filter: blur(20px) !important; }
+    .light-mode h1, .light-mode h2, .light-mode h3 { color: #111827 !important; }
+    .light-mode p { color: #4b5563 !important; }
+    .light-mode .music-card { background: white; }
+    .light-mode .music-card.active { background: rgba(99, 102, 241, 0.08); }
+    .light-mode .btn-secondary { background: white; }
+
+    /* Scroll Reveal - Ant Motion Style */
+    .reveal { 
+      opacity: 0; 
+      transform: translateY(20px);
+      transition: all 0.6s var(--ease-out);
+    }
+    .reveal.visible { 
+      opacity: 1; 
+      transform: translateY(0);
+    }
+
+    /* Hamburger Button */
+    .hamburger { display: none; padding: 8px; background: none; border: none; cursor: pointer; z-index: 60; }
+    .hamburger-line { width: 20px; height: 2px; background: var(--text-primary); margin: 4px 0; transition: all 0.3s var(--ease-out); border-radius: 2px; }
+    .hamburger.active .hamburger-line:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+    .hamburger.active .hamburger-line:nth-child(2) { opacity: 0; }
+    .hamburger.active .hamburger-line:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+    /* Mobile Menu */
+    .mobile-menu { position: fixed; top: 52px; left: 0; right: 0; background: var(--bg-primary); border-bottom: 1px solid var(--border); z-index: 49; box-shadow: 0 8px 30px rgba(0,0,0,0.2); max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.3s var(--ease-out), opacity 0.3s var(--ease-out); }
+    .mobile-menu.open { max-height: 300px; opacity: 1; }
+    .mobile-menu a { display: block; padding: 14px 24px; color: var(--text-secondary); text-decoration: none; font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--border); opacity: 0; transform: translateY(-10px); transition: all 0.3s var(--ease-out); }
+    .mobile-menu.open a { opacity: 1; transform: translateY(0); }
+    .mobile-menu.open a:nth-child(1) { transition-delay: 0.05s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay: 0.1s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay: 0.15s; }
+    .mobile-menu.open a:nth-child(4) { transition-delay: 0.2s; }
+    .mobile-menu.open a:nth-child(5) { transition-delay: 0.25s; }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--text-primary); background: rgba(99,102,241,0.05); }
+
+    @media (max-width: 768px) {
+      .nav-links-desktop { display: none !important; }
+      .hamburger { display: flex; flex-direction: column; justify-content: center; }
+      .hero-content-grid { grid-template-columns: 1fr !important; text-align: center !important; }
+      .hero-left, .hero-right { padding: 0 !important; text-align: center !important; }
+      .role-tags { justify-content: center !important; }
+      .hero-buttons { justify-content: center !important; }
+      section { padding: 60px 16px !important; }
+      .skills-grid, .lifestyle-grid, .about-grid { grid-template-columns: 1fr !important; }
+      .footer-social { flex-direction: column; align-items: center; }
+      .section-title { font-size: 28px !important; }
+      header { min-height: 90vh !important; padding: 70px 20px 40px !important; }
+      .typewriter { white-space: normal !important; border-right: none !important; animation: none !important; }
+      .tilt-card-inner .tilt-content { transform: none !important; }
+      .scroll-indicator { display: none !important; }
+    }
+
+    @media (max-width: 480px) {
+      header { min-height: 100svh !important; padding: 60px 16px 24px !important; }
+      .section-title { font-size: 24px !important; }
+      .project-card { margin: 0 -8px; }
+      .hero-subtitle { margin-bottom: 16px !important; }
+      .hero-desc { margin-bottom: 20px !important; }
+      .hero-buttons { gap: 8px !important; }
+      .hero-buttons a { padding: 10px 18px !important; font-size: 12px !important; }
+      .skill-tag { padding: 4px 10px !important; font-size: 11px !important; }
+    }
+
+    @media (max-width: 380px) {
+      header { padding: 50px 12px 20px !important; }
+      h1 { font-size: 32px !important; }
+      .role-tags { gap: 6px !important; }
+      .hero-buttons { flex-direction: column !important; align-items: center !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <!-- ANIMATED BACKGROUND -->
+  <div style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden">
+    <div class="parallax-blob" data-speed="0.1" style="position:absolute;width:600px;height:600px;background:radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);border-radius:50%;top:-200px;left:-200px;filter:blur(60px);animation:float 5s ease-in-out infinite"></div>
+    <div class="parallax-blob" data-speed="0.15" style="position:absolute;width:500px;height:500px;background:radial-gradient(circle, rgba(168,85,247,0.1) 0%, transparent 70%);border-radius:50%;bottom:-150px;right:-150px;filter:blur(60px);animation:float 5s ease-in-out infinite;animation-delay:-3s"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav style="position:fixed;top:0;width:100%;padding:12px 32px;display:flex;justify-content:space-between;align-items:center;z-index:50;backdrop-filter:blur(16px);background:rgba(15,23,42,0.8);border-bottom:1px solid rgba(255,255,255,0.05);transition:all 0.3s" id="navbar">
+    <span style="font-size:16px;font-weight:bold;letter-spacing:-0.05em;color:white">CARLO<span style="color:#818cf8">.KUN</span></span>
+    <div style="display:flex;align-items:center;gap:20px">
+      <div class="nav-links-desktop" style="display:flex;gap:24px;font-size:12px;font-weight:500">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#lifestyle" class="nav-link">Lifestyle</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+      <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#skills" onclick="closeMenu()">Skills</a>
+    <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#lifestyle" onclick="closeMenu()">Lifestyle</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <header style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 24px 60px;z-index:1">
+    <div style="position:relative;z-index:10;text-align:center;max-width:900px">
+      <div class="animate-fadeInUp" style="margin-bottom:16px">
+        <span style="color:#818cf8;font-family:monospace;letter-spacing:0.15em;text-transform:uppercase;font-size:12px;display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(99,102,241,0.1);border-radius:9999px;border:1px solid rgba(99,102,241,0.2)">
+          ✨ Welcome to my portfolio
+        </span>
+      </div>
+      <h1 class="animate-fadeInUp stagger-1" style="font-size:clamp(36px,7vw,72px);font-weight:900;color:white;margin-bottom:16px;letter-spacing:-0.03em;line-height:1.05">
+        HI, I'm <span class="hero-text-gradient">CARLO</span><br><span class="hero-text-gradient">NEROZA.</span>
+      </h1>
+      <p class="animate-fadeInUp stagger-2 hero-subtitle" style="color:#94a3b8;font-size:clamp(14px,1.8vw,16px);max-width:550px;margin:0 auto 24px;line-height:1.7">
+        <span class="typewriter" id="hero-typewriter"></span>
+      </p>
+      <div class="animate-fadeInUp stagger-3 role-tags" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:24px">
+        <span class="skill-tag">Web Developer</span>
+        <span class="skill-tag">AI Workflow Builder</span>
+        <span class="skill-tag">Automation Specialist</span>
+      </div>
+      <p class="animate-fadeInUp stagger-4 hero-desc" style="color:#64748b;font-size:13px;max-width:500px;margin:0 auto 32px;line-height:1.7">
+        Crafting high-performance websites, scalable automations, and AI-driven systems designed to simplify workflows and create meaningful impact.
+      </p>
+      <div class="animate-fadeInUp stagger-5 hero-buttons" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="#projects" class="btn-primary" style="padding:12px 24px;font-size:13px">View Work →</a>
+        <a href="https://github.com/Subarun325-byte" class="btn-secondary" style="padding:12px 24px;font-size:13px">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+    <div class="animate-bounce scroll-indicator" style="position:absolute;bottom:32px;display:flex;flex-direction:column;align-items:center;gap:6px">
+      <span style="font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#64748b">Scroll</span>
+      <div style="width:1px;height:32px;background:linear-gradient(to bottom,#64748b,transparent)"></div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about" style="padding:80px 24px;max-width:1152px;margin:0 auto">
+    <div class="about-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:48px;align-items:center">
+      <div class="glass" style="border-radius:20px;padding:28px">
+        <h3 style="font-size:22px;font-weight:bold;color:white;margin-bottom:16px">✨ The Story</h3>
+        <p style="color:#94a3b8;line-height:1.8;margin-bottom:20px;font-size:15px">
+          Based in Davao City, I bridge the gap between human creativity and machine efficiency. My journey isn't just about code; it's about constant evolution.
+        </p>
+        <div style="background:rgba(15,23,42,0.5);padding:20px;border-radius:12px;border-left:4px solid #6366f1">
+          <p style="font-size:13px;font-style:italic;color:#818cf8;line-height:1.7">"One achievement I'm proud of is my fitness journey—transforming from 87kg to 64kg through consistency."</p>
+        </div>
+      </div>
+      <div>
+        <h2 style="font-size:32px;font-weight:bold;color:white;margin-bottom:24px;border-bottom:4px solid #6366f1;padding-bottom:12px;display:inline-block">Philosophy</h2>
+        <p style="font-size:18px;color:#cbd5e1;margin-bottom:24px;font-style:italic;line-height:1.7">"Keep learning, keep building, and never stop improving."</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="glass" style="padding:20px;border-radius:12px;text-align:center">
+            <span style="display:block;font-size:28px;font-weight:bold;color:white;margin-bottom:4px">23+</span>
+            <span style="color:#64748b;font-size:13px">Age</span>
+          </div>
+          <div class="glass" style="padding:20px;border-radius:12px;text-align:center">
+            <span style="display:block;font-size:28px;font-weight:bold;color:white;margin-bottom:4px">DVO</span>
+            <span style="color:#64748b;font-size:13px">Location</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="padding:80px 24px;background:#1e293b">
+    <div style="max-width:1152px;margin:0 auto">
+      <div style="margin-bottom:48px;text-align:center">
+        <span style="color:#818cf8;font-family:monospace;letter-spacing:0.1em;text-transform:uppercase;font-size:13px;display:block;margin-bottom:12px">02 / Featured Projects</span>
+        <h2 class="section-title" style="font-size:36px;font-weight:bold;color:white;margin-bottom:12px">Featured Projects</h2>
+        <div style="height:4px;width:60px;background:linear-gradient(90deg,#6366f1,#a855f7);margin:0 auto"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px">
+        <div class="project-card tilt-card" data-tilt>
+          <div class="tilt-card-inner">
+            <div style="height:180px;overflow:hidden;position:relative">
+              <img src="https://subarun325-byte.github.io/dodo-fruit-seedling/images/hero-image.jpg" alt="Dodo Fruit Seedling" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%2322c55e%22 width=%22200%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2248%22 text-anchor=%22middle%22 dy=%22.3em%22>🌿</text></svg>'">
+            </div>
+            <div class="tilt-content" style="padding:20px">
+              <h3 style="font-size:20px;font-weight:bold;color:white;margin-bottom:8px">Dodo Fruit Seedling</h3>
+              <p style="color:#94a3b8;font-size:13px;margin-bottom:16px;line-height:1.7">Business website showcasing premium tropical seedlings and agricultural services.</p>
+              <a href="https://subarun325-byte.github.io/dodo-fruit-seedling/" target="_blank" style="color:#818cf8;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:bold;text-decoration:none;padding:8px 16px;background:rgba(99,102,241,0.1);border-radius:9999px">↗ View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card tilt-card" data-tilt>
+          <div class="tilt-card-inner">
+            <div style="height:180px;overflow:hidden;position:relative">
+              <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80" alt="Kape ni Carlo Kun" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f97316%22 width=%22200%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2248%22 text-anchor=%22middle%22 dy=%22.3em%22>☕</text></svg>'">
+            </div>
+            <div class="tilt-content" style="padding:20px">
+              <h3 style="font-size:20px;font-weight:bold;color:white;margin-bottom:8px">Kape ni Carlo Kun</h3>
+              <p style="color:#94a3b8;font-size:13px;margin-bottom:16px;line-height:1.7">Coffee shop website featuring branding, menu, and customer engagement.</p>
+              <a href="https://kapenicarlokun.netlify.app/" target="_blank" style="color:#818cf8;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:bold;text-decoration:none;padding:8px 16px;background:rgba(99,102,241,0.1);border-radius:9999px">↗ View Project</a>
+            </div>
+          </div>
+        </div>
+        <div class="project-card tilt-card" data-tilt>
+          <div class="tilt-card-inner">
+            <div style="height:180px;overflow:hidden;position:relative">
+              <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" alt="AI & MCP Workflows" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%236366f1%22 width=%22200%22 height=%22200%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2248%22 text-anchor=%22middle%22 dy=%22.3em%22>🤖</text></svg>'">
+            </div>
+            <div class="tilt-content" style="padding:20px">
+              <h3 style="font-size:20px;font-weight:bold;color:white;margin-bottom:8px">AI & MCP Workflows</h3>
+              <p style="color:#94a3b8;font-size:13px;margin-bottom:16px;line-height:1.7">Custom automations, AI assistants, MCP integrations, and productivity tools.</p>
+              <span style="color:#64748b;font-size:13px;display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(100,116,139,0.1);border-radius:9999px">Coming Soon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" style="padding:80px 24px;max-width:1152px;margin:0 auto">
+    <div style="margin-bottom:48px;text-align:center">
+      <span style="color:#818cf8;font-family:monospace;letter-spacing:0.1em;text-transform:uppercase;font-size:13px;display:block;margin-bottom:12px">03 / Experience & Skills</span>
+      <h2 class="section-title" style="font-size:36px;font-weight:bold;color:white;margin-bottom:12px">Skills & Expertise</h2>
+      <div style="height:4px;width:60px;background:linear-gradient(90deg,#6366f1,#a855f7);margin:0 auto"></div>
+    </div>
+    <div class="skills-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px">
+      <div class="glass" style="padding:24px;border-radius:20px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+          <div style="padding:10px;background:rgba(99,102,241,0.2);border-radius:10px;color:#818cf8"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h3 style="font-size:16px;font-weight:bold;color:white">Web Development</h3>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span class="skill-tag">HTML</span><span class="skill-tag">CSS</span><span class="skill-tag">JavaScript</span><span class="skill-tag">GitHub</span><span class="skill-tag">Netlify</span>
+        </div>
+      </div>
+      <div class="glass" style="padding:24px;border-radius:20px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+          <div style="padding:10px;background:rgba(99,102,241,0.2);border-radius:10px;color:#818cf8"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
+          <h3 style="font-size:16px;font-weight:bold;color:white">Automation</h3>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span class="skill-tag">OpenClaw</span><span class="skill-tag">N8N</span><span class="skill-tag">MCP</span><span class="skill-tag">AI Agents</span><span class="skill-tag">Workflow Design</span>
+        </div>
+      </div>
+      <div class="glass" style="padding:24px;border-radius:20px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+          <div style="padding:10px;background:rgba(99,102,241,0.2);border-radius:10px;color:#818cf8"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div>
+          <h3 style="font-size:16px;font-weight:bold;color:white">Creative</h3>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span class="skill-tag">Animation</span><span class="skill-tag">Content Creation</span><span class="skill-tag">Music</span><span class="skill-tag">Storytelling</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIFESTYLE -->
+  <section id="lifestyle" style="padding:80px 24px;max-width:1152px;margin:0 auto">
+    <div style="margin-bottom:48px;text-align:center">
+      <span style="color:#818cf8;font-family:monospace;letter-spacing:0.1em;text-transform:uppercase;font-size:13px;display:block;margin-bottom:12px">04 / Lifestyle</span>
+      <h2 class="section-title" style="font-size:36px;font-weight:bold;color:white;margin-bottom:12px">Music & Anime</h2>
+      <div style="height:4px;width:60px;background:linear-gradient(90deg,#6366f1,#a855f7);margin:0 auto"></div>
+    </div>
+    <div class="lifestyle-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px">
+      
+      <!-- Music Corner -->
+      <div class="glass" style="padding:24px;border-radius:20px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+          <div style="padding:10px;background:rgba(236,72,153,0.2);border-radius:10px;color:#f472b6"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+          <h3 style="font-size:20px;font-weight:bold;color:white">Music Corner</h3>
+        </div>
+        
+        <div id="music-player" style="display:none;margin-bottom:20px;border-radius:12px;overflow:hidden;border:1px solid var(--border)">
+          <iframe id="youtube-embed" width="100%" height="180" src="" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:12px"></iframe>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="music-card" onclick="playMusic('MjVBI6MzTwE', 'Koi', this)">
+            <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ec4899,#ec4899aa);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="flex:1">
+              <p style="color:white;font-weight:bold;margin:0;font-size:14px">Koi</p>
+              <p style="font-size:12px;color:#64748b;margin:0;margin-top:2px">Gen Hoshino</p>
+            </div>
+          </div>
+          <div class="music-card" onclick="playMusic('V7Pq4dIlMaM', 'Inferno', this)">
+            <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#f97316,#f97316aa);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="flex:1">
+              <p style="color:white;font-weight:bold;margin:0;font-size:14px">Inferno</p>
+              <p style="font-size:12px;color:#64748b;margin:0;margin-top:2px">Mrs. GREEN APPLE</p>
+            </div>
+          </div>
+          <div class="music-card" onclick="playMusic('ZRtdQ81jPUQ', 'Idol', this)">
+            <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#8b5cf6aa);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+            <div style="flex:1">
+              <p style="color:white;font-weight:bold;margin:0;font-size:14px">Idol</p>
+              <p style="font-size:12px;color:#64748b;margin:0;margin-top:2px">YOASOBI</p>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:#64748b;margin-top:16px;letter-spacing:0.05em;text-align:center">Click a track to play on YouTube</p>
+      </div>
+
+      <!-- Anime Corner -->
+      <div class="glass" style="padding:24px;border-radius:20px;border:1px dashed rgba(99,102,241,0.3)">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+          <div style="padding:10px;background:rgba(139,92,246,0.2);border-radius:10px;color:#a78bfa"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+          <h3 style="font-size:20px;font-weight:bold;color:white">Anime & Manga</h3>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <span class="skill-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa">Ace of Diamond</span>
+          <span class="skill-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa">Solo Leveling</span>
+          <span class="skill-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa">Clannad</span>
+          <span class="skill-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa">Naruto</span>
+          <span class="skill-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa">Attack on Titan</span>
+          <span class="skill-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa">Debut or Die</span>
+          <span class="skill-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa">Terminally Ill Knight</span>
+        </div>
+        <div style="margin-top:24px;padding:16px;background:rgba(15,23,42,0.5);border-radius:12px;border:1px solid var(--border)">
+          <p style="color:#94a3b8;font-size:13px;line-height:1.7;margin:0">Currently following <strong style="color:white">5-10 series</strong> per season. <span style="color:#818cf8">50+</span> manhwa completed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="padding:80px 24px;max-width:600px;margin:0 auto">
+    <div style="margin-bottom:48px;text-align:center">
+      <span style="color:#818cf8;font-family:monospace;letter-spacing:0.1em;text-transform:uppercase;font-size:13px;display:block;margin-bottom:12px">05 / Contact</span>
+      <h2 class="section-title" style="font-size:36px;font-weight:bold;color:white;margin-bottom:12px">Get In Touch</h2>
+      <div style="height:4px;width:60px;background:linear-gradient(90deg,#6366f1,#a855f7);margin:0 auto"></div>
+    </div>
+    <div class="glass" style="padding:32px;border-radius:20px">
+      <form id="contact-form" onsubmit="handleSubmit(event)">
+        <div style="margin-bottom:20px">
+          <label style="display:block;font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:8px">Name</label>
+          <input type="text" id="name" placeholder="Your name" style="width:100%;padding:12px 16px;background:var(--bg-primary);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);font-size:14px;outline:none;transition:all 0.3s" onfocus="this.style.borderColor='#6366f1'" onblur="validateField(this)">
+          <p id="name-error" style="color:#ef4444;font-size:12px;margin-top:6px;display:none">Please enter your name</p>
+        </div>
+        <div style="margin-bottom:20px">
+          <label style="display:block;font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:8px">Email</label>
+          <input type="email" id="email" placeholder="your@email.com" style="width:100%;padding:12px 16px;background:var(--bg-primary);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);font-size:14px;outline:none;transition:all 0.3s" onfocus="this.style.borderColor='#6366f1'" onblur="validateField(this)">
+          <p id="email-error" style="color:#ef4444;font-size:12px;margin-top:6px;display:none">Please enter a valid email</p>
+        </div>
+        <div style="margin-bottom:20px">
+          <label style="display:block;font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:8px">Message</label>
+          <textarea id="message" rows="4" placeholder="Your message..." style="width:100%;padding:12px 16px;background:var(--bg-primary);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);font-size:14px;outline:none;resize:vertical;font-family:inherit;transition:all 0.3s" onfocus="this.style.borderColor='#6366f1'" onblur="validateField(this)"></textarea>
+          <p id="message-error" style="color:#ef4444;font-size:12px;margin-top:6px;display:none">Please enter a message</p>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:14px">Send Message</button>
+        <div id="form-success" style="display:none;text-align:center;padding:16px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:12px;margin-top:16px">
+          <p style="color:#22c55e;font-size:14px;font-weight:500;margin:0">Message sent! I'll get back to you soon.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding:60px 24px 32px;border-top:1px solid rgba(255,255,255,0.05);text-align:center">
+    <h2 style="font-size:32px;font-weight:bold;color:white;margin-bottom:12px;letter-spacing:-0.05em">Let's build something together.</h2>
+    <p style="color:#64748b;font-size:15px;margin-bottom:32px;max-width:450px;margin-left:auto;margin-right:auto;line-height:1.7">Have a project in mind? Let's connect and create something amazing.</p>
+    <div class="footer-social" style="display:flex;justify-content:center;gap:12px;margin-bottom:40px;flex-wrap:wrap">
+      <a href="https://github.com/Subarun325-byte" class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        <span style="font-size:13px;font-weight:500">GitHub</span>
+      </a>
+      <a href="https://www.facebook.com/carlokun.neroza/" class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        <span style="font-size:13px;font-weight:500">Facebook</span>
+      </a>
+      <a href="https://www.instagram.com/nerozacarlokun/" class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        <span style="font-size:13px;font-weight:500">Instagram</span>
+      </a>
+      <a href="mailto:subarun320@gmail.com" class="social-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <span style="font-size:13px;font-weight:500">Email</span>
+      </a>
+    </div>
+    <div style="padding-top:24px;border-top:1px solid rgba(255,255,255,0.05)">
+      <p style="color:#64748b;font-size:13px;margin-bottom:6px">Designed & Built by Carlo Lofranco Neroza</p>
+      <p style="font-size:11px;color:#64748b;font-style:italic;opacity:0.7">"Every small improvement compounds over time."</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile Menu Toggle
+    function toggleMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const hamburger = document.querySelector('.hamburger');
+      menu.classList.toggle('open');
+      hamburger.classList.toggle('active');
+    }
+
+    function closeMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const hamburger = document.querySelector('.hamburger');
+      menu.classList.remove('open');
+      hamburger.classList.remove('active');
+    }
+
+    // Form Validation
+    function validateField(field) {
+      const errorEl = document.getElementById(field.id + '-error');
+      if (!errorEl) return true;
+      
+      let isValid = true;
+      
+      if (field.id === 'name') {
+        isValid = field.value.trim().length >= 2;
+      } else if (field.id === 'email') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        isValid = emailRegex.test(field.value);
+      } else if (field.id === 'message') {
+        isValid = field.value.trim().length >= 10;
+      }
+      
+      errorEl.style.display = isValid ? 'none' : 'block';
+      field.style.borderColor = isValid ? 'var(--border)' : '#ef4444';
+      
+      return isValid;
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const message = document.getElementById('message');
+      
+      const nameValid = validateField(name);
+      const emailValid = validateField(email);
+      const messageValid = validateField(message);
+      
+      if (nameValid && emailValid && messageValid) {
+        document.getElementById('form-success').style.display = 'block';
+        document.getElementById('contact-form').reset();
+        setTimeout(() => {
+          document.getElementById('form-success').style.display = 'none';
+        }, 3000);
+      }
+    }
+
+    // Close menu on resize to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) closeMenu();
+    });
+
+    // Theme Toggle
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+      const isLight = document.body.classList.contains('light-mode');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      document.getElementById('sun-icon').style.display = isLight ? 'none' : 'block';
+      document.getElementById('moon-icon').style.display = isLight ? 'block' : 'none';
+      document.getElementById('navbar').style.background = isLight ? 'rgba(248,250,252,0.95)' : 'rgba(15,23,42,0.8)';
+    }
+
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('sun-icon').style.display = 'none';
+      document.getElementById('moon-icon').style.display = 'block';
+      document.getElementById('navbar').style.background = 'rgba(248,250,252,0.95)';
+    }
+
+    // Music Player
+    let currentCard = null;
+    function playMusic(youtubeId, title, card) {
+      const player = document.getElementById('music-player');
+      const embed = document.getElementById('youtube-embed');
+      
+      if (currentCard === card) {
+        player.style.display = 'none';
+        embed.src = '';
+        card.classList.remove('active');
+        currentCard = null;
+        return;
+      }
+      
+      if (currentCard) currentCard.classList.remove('active');
+      card.classList.add('active');
+      currentCard = card;
+      
+      embed.src = 'https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0';
+      embed.title = title;
+      player.style.display = 'block';
+    }
+
+    // Ant Motion Style Scroll Reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, index * 80);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('section').forEach((section, i) => {
+      section.classList.add('reveal');
+      section.style.transitionDelay = (i * 0.1) + 's';
+      revealObserver.observe(section);
+    });
+
+    // Stagger reveal for cards and tags
+    const staggerObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const children = entry.target.children;
+          Array.from(children).forEach((child, i) => {
+            setTimeout(() => {
+              child.style.opacity = '1';
+              child.style.transform = 'translateY(0)';
+            }, i * 100);
+          });
+          staggerObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.skills-grid, .lifestyle-grid, .footer-social').forEach(grid => {
+      staggerObserver.observe(grid);
+      Array.from(grid.children).forEach(child => {
+        child.style.opacity = '0';
+        child.style.transform = 'translateY(20px)';
+        child.style.transition = 'all 0.5s cubic-bezier(0.215, 0.61, 0.355, 1)';
+      });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Navbar background on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+
+    // Scroll Progress Bar
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollProgress = (scrollTop / scrollHeight) * 100;
+      document.getElementById('scroll-progress').style.width = scrollProgress + '%';
+    });
+
+    // Parallax Scrolling for Background Blobs
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      document.querySelectorAll('.parallax-blob').forEach((blob) => {
+        const speed = parseFloat(blob.dataset.speed) || 0.1;
+        blob.style.marginTop = (scrollY * speed) + 'px';
+      });
+    });
+
+    // 3D Card Tilt Effect
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 15;
+        const rotateY = (centerX - x) / 15;
+        card.querySelector('.tilt-card-inner').style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.querySelector('.tilt-card-inner').style.transform = 'rotateX(0) rotateY(0) scale(1)';
+      });
+    });
+
+    // Typewriter Effect
+    const typewriterText = "I'm Carlo, a Filipino creator crafting AI-powered workflows and high-performance web experiences.";
+    const typewriterEl = document.getElementById('hero-typewriter');
+    let charIndex = 0;
+    function typeWriter() {
+      if (charIndex < typewriterText.length) {
+        typewriterEl.textContent += typewriterText.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 30);
+      }
+    }
+    setTimeout(typeWriter, 800);
+  </script>
+</body>
+</html>
